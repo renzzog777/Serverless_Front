@@ -115,7 +115,7 @@ resource "aws_lambda_function" "readLambda" {
     mode = "PassThrough"
   }
 
-  source_code_hash = filebase64sha256("${path.module}/readterra.zip.zip")
+  source_code_hash = filebase64sha256("${path.module}/readterra.zip")
 
   runtime = "nodejs12.x"
 
