@@ -80,24 +80,90 @@ data "archive_file" "zip2" {
 }
 
 
-resource "aws_lambda_function" "writeLambda" {
+resource "aws_lambda_function" "writeLambda" { 
 
-  function_name = "writeLambda"
   filename      = "${path.module}/writeterra.zip"
+  function_name = "writeLambda"
   role          = aws_iam_role.writeRole.arn
   handler       = "writeterra.handler"
-  runtime       = "nodejs12.x"
 
+  tracing_config {
+    mode = "PassThrough"
+  }
+
+  source_code_hash = filebase64sha256("${path.module}/writeterra.zip")
+
+  runtime = "nodejs12.x"
+
+  lifecycle {
+    ignore_changes = [
+      filename,
+      source_code_hash
+    ]
+  }
 
 }
 
 resource "aws_lambda_function" "readLambda" {
 
-  function_name = "readLambda"
   filename      = "${path.module}/readterra.zip"
-  role          = aws_iam_role.readRole.arn
+  function_name = "readLambda"
+  role          =  aws_iam_role.readRole.arn
   handler       = "readterra.handler"
-  runtime       = "nodejs12.x"
+
+  tracing_config {
+    mode = "PassThrough"
+  }
+
+  source_code_hash = filebase64sha256("${path.module}/readterra.zip.zip")
+
+  runtime = "nodejs12.x"
+
+  lifecycle {
+    ignore_changes = [
+      filename,
+      source_code_hash
+    ]
+  }
+
+}
+
+resource "aws_lambda_permission" "General_Read_Permission" {
+  statement_id  = "General_Read_Permission"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.readLambda.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = aws_apigatewayv2_api.apiLambda.execution_arn
+
+
+resource "aws_lambda_permission" "General_Write_Permission" {
+  statement_id  = "General_Write_Permission"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.writeLambda.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = aws_apigatewayv2_api.apiLambda.execution_arn
+
+}
+
+resource "aws_lambda_permission" "ID_Read_Permission" {
+  statement_id  = "ID_Read_Permission"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.readLambda.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = aws_apigatewayv2_api.apiLambda.execution_arn
+
+}
+
+resource "aws_lambda_permission" "ID_Write_Permission" {
+  statement_id  = "ID_Write_Permission"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.writeLambda.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = aws_apigatewayv2_api.apiLambda.execution_arn
 
 }
 
