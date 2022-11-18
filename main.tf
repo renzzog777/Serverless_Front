@@ -106,7 +106,7 @@ resource "aws_lambda_function" "readLambda" {
 resource "aws_apigatewayv2_api" "apiLambda" {
   name          = "myAPI"
   protocol_type = "HTTP"
-
+}
 cors_configuration {
     allow_origins = ["http://*", "https://*"]
     allow_headers = ["*"]
