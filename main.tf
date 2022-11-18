@@ -142,12 +142,52 @@ resource "aws_apigatewayv2_deployment" "api_deployment" {
   api_id      = aws_apigatewayv2_api.apiLambda.id
   description = "Api deployment"
 
-
+triggers = {
+    redeployment = sha1(join(",", tolist([
+      jsonencode(aws_apigatewayv2_route.general_get_route),
+      jsonencode(aws_apigatewayv2_route.get_id_route),
+      jsonencode(aws_apigatewayv2_route.post_route),
+      jsonencode(aws_apigatewayv2_route.put_id_route),
+      jsonencode(aws_apigatewayv2_route.delete_id_route)
+    ])))
+  }
   lifecycle {
     create_before_destroy = true
   }
 
 }
 
+resource "aws_apigatewayv2_route" "general_get_route" {
+  api_id    = aws_apigatewayv2_api.apiLambda.id
+  route_key = "GET /${var.table-name}" 
 
+  target = "integrations/${aws_apigatewayv2_integration.read_integration.id}"
+}
+
+# --- GET by id ---
+
+resource "aws_apigatewayv2_route" "get_id_route" {
+  api_id    = aws_apigatewayv2_api.apiLmbda.id
+  route_key = "GET /${var.table-name}/{id}"
+
+  target = "integrations/${aws_apigatewayv2_integration.read_integration.id}"
+}
+
+# --- POST ---
+
+resource "aws_apigatewayv2_route" "post_route" {
+  api_id    = aws_apigatewayv2_api.apiLambda.id
+  route_key = "POST /${var.table-name}" 
+
+  target = "integrations/${aws_apigatewayv2_integration.write_integration.id}"
+}
+
+# --- PUT by id ---
+
+resource "aws_apigatewayv2_route" "put_id_route" {
+  api_id    = aws_apigatewayv2_api.apiLambda.id
+  route_key = "PUT /${var.table-name}/{id}"
+
+  target = "integrations/${aws_apigatewayv2_integration.write_integration.id}"
+}
 #test 1
