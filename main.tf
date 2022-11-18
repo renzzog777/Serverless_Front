@@ -167,7 +167,7 @@ resource "aws_apigatewayv2_route" "general_get_route" {
 # --- GET by id ---
 
 resource "aws_apigatewayv2_route" "get_id_route" {
-  api_id    = aws_apigatewayv2_api.apiLmbda.id
+  api_id    = aws_apigatewayv2_api.apiLambda.id
   route_key = "GET /${var.table-name}/{id}"
 
   target = "integrations/${aws_apigatewayv2_integration.read_integration.id}"
