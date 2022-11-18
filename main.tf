@@ -191,5 +191,11 @@ resource "aws_apigatewayv2_route" "put_id_route" {
   target = "integrations/${aws_apigatewayv2_integration.write_integration.id}"
 }
 
+resource "aws_apigatewayv2_route" "delete_id_route" {
+  api_id    = aws_apigatewayv2_api.apiLambda.id
+  route_key = "DELETE /${var.table-name}/{id}"
+
+  target = "integrations/${aws_apigatewayv2_integration.write_integration.id}"
+}
 
 #test 1
