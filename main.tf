@@ -117,7 +117,7 @@ cors_configuration {
 
 
 resource "aws_apigatewayv2_integration" "read_integration" {
-  api_id           = aws_apigatewayv2_api.api.id
+  api_id           = aws_apigatewayv2_api.apiLambda.id
   integration_type = "AWS_PROXY"
 
   connection_type        = "INTERNET"
@@ -128,7 +128,7 @@ resource "aws_apigatewayv2_integration" "read_integration" {
 }
 
 resource "aws_apigatewayv2_integration" "write_integration" {
-  api_id           = aws_apigatewayv2_api.api.id
+  api_id           = aws_apigatewayv2_api.apiLambda.id
   integration_type = "AWS_PROXY"
 
   connection_type        = "INTERNET"
@@ -139,7 +139,7 @@ resource "aws_apigatewayv2_integration" "write_integration" {
 }
 
 resource "aws_apigatewayv2_deployment" "api_deployment" {
-  api_id      = aws_apigatewayv2_api.api.id
+  api_id      = aws_apigatewayv2_api.apiLambda.id
   description = "Api deployment"
 
 
