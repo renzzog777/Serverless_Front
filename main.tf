@@ -82,7 +82,7 @@ data "archive_file" "zip2" {
 
 resource "aws_lambda_function" "writeLambda" { 
 
-  filename      = "${path.module}/writeterra.zip"
+  filename      = "writeterra.zip"
   function_name = "writeLambda"
   role          = aws_iam_role.writeRole.arn
   handler       = "writeterra.handler"
@@ -106,7 +106,7 @@ resource "aws_lambda_function" "writeLambda" {
 
 resource "aws_lambda_function" "readLambda" {
 
-  filename      = "${path.module}/readterra.zip"
+  filename      = "readterra.zip"
   function_name = "readLambda"
   role          =  aws_iam_role.readRole.arn
   handler       = "readterra.handler"
