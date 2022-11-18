@@ -136,7 +136,7 @@ resource "aws_lambda_permission" "General_Read_Permission" {
 
   source_arn = aws_apigatewayv2_api.apiLambda.execution_arn
 
-
+}
 resource "aws_lambda_permission" "General_Write_Permission" {
   statement_id  = "General_Write_Permission"
   action        = "lambda:InvokeFunction"
