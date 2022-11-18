@@ -106,15 +106,17 @@ resource "aws_lambda_function" "readLambda" {
 resource "aws_apigatewayv2_api" "apiLambda" {
   name          = "myAPI"
   protocol_type = "HTTP"
-}
+
 cors_configuration {
     allow_origins = ["http://*", "https://*"]
     allow_headers = ["*"]
     allow_methods = ["*"]
+
+}
 }
 
 
-esource "aws_apigatewayv2_integration" "read_integration" {
+resource "aws_apigatewayv2_integration" "read_integration" {
   api_id           = aws_apigatewayv2_api.api.id
   integration_type = "AWS_PROXY"
 
