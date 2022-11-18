@@ -1,3 +1,4 @@
+
 terraform {
   required_providers {
     aws = {
@@ -91,7 +92,7 @@ resource "aws_lambda_function" "writeLambda" {
     mode = "PassThrough"
   }
 
-  source_code_hash = filebase64sha256("${path.module}/writeterra.zip")
+  source_code_hash = filebase64sha256("writeterra.zip")
 
   runtime = "nodejs12.x"
 
@@ -115,7 +116,7 @@ resource "aws_lambda_function" "readLambda" {
     mode = "PassThrough"
   }
 
-  source_code_hash = filebase64sha256("${path.module}/readterra.zip")
+  source_code_hash = filebase64sha256("readterra.zip")
 
   runtime = "nodejs12.x"
 
