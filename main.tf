@@ -70,14 +70,14 @@ resource "aws_iam_role" "readRole" {
 
 data "archive_file" "zipread" {
  type        = "zip"
- source_file  = "${path.module}/readterra.js"
- output_path = "${path.module}/readterra.zip"
+ source_file  = "readterra.js"
+ output_path = "$readterra.zip"
 }
 
 data "archive_file" "zip2" {
  type        = "zip"
- source_file  = "${path.module}/writeterra.js"
- output_path = "${path.module}/writeterra.zip"
+ source_file  = "writeterra.js"
+ output_path = "writeterra.zip"
 }
 
 
