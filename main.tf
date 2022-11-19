@@ -129,6 +129,45 @@ resource "aws_lambda_function" "readLambda" {
 
 }
 
+resource "aws_lambda_permission" "General_Read_Permission" {
+  statement_id  = "General_Read_Permission"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.readLambda.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = aws_apigatewayv2_api.apiLambda.execution_arn
+
+}
+resource "aws_lambda_permission" "General_Write_Permission" {
+  statement_id  = "General_Write_Permission"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.writeLambda.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = aws_apigatewayv2_api.apiLambda.execution_arn
+
+}
+
+resource "aws_lambda_permission" "ID_Read_Permission" {
+  statement_id  = "ID_Read_Permission"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.readLambda.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = aws_apigatewayv2_api.apiLambda.execution_arn
+
+}
+
+resource "aws_lambda_permission" "ID_Write_Permission" {
+  statement_id  = "ID_Write_Permission"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.writeLambda.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = aws_apigatewayv2_api.apiLambda.execution_arn
+
+}
+
 
 resource "aws_apigatewayv2_api" "apiLambda" {
   name          = "myAPI"
